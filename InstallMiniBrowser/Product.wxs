@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
+     xmlns:util='http://schemas.microsoft.com/wix/UtilExtension'
+     xmlns:ui='http://schemas.microsoft.com/wix/UIExtension'
+     xmlns:netfx="http://schemas.microsoft.com/wix/NetFxExtension"
+     
+     >
+
+  <Product Id="*" Name="MiniBrowser" Language="1033" Version="1.10.2.20" Manufacturer="Spartanfox" UpgradeCode="{DE3EE3AF-1D9B-4867-B140-5A01675BDD76}">
+    <Package InstallerVersion="201" Compressed="yes" InstallScope="perMachine" />
+
+    
+    <MediaTemplate EmbedCab="yes"/>
+    
+    <!--Here We Install Our Main App-->
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="ProgramFilesFolder">
+        <Directory Id="MAINFOLDER" Name="Spartanfox">
+          <Directory Id="INSTALLFOLDER" Name="MiniBrowser"/>
+        </Directory>
+      </Directory>
+
+      <!-- Step 1: For the Program Menu -->
+      <Directory Id="ProgramMenuFolder">
+        <Directory Id="ApplicationProgramsFolder" Name="Spartanfox"/>
+      </Directory>
+
+      <!--Step 2:For Desktop Folder-->
+      <Directory Id="DesktopFolder"/>
+
+      <!--Step 3:For StartUp Folder-->
+      <Directory Id="StartupFolder"/>
+
+    </Directory>
+
+
+    <DirectoryRef Id="INSTALLFOLDER">
+      <Component Id="MiniBrowser.exe" Guid="{51C2DBB6-176D-414D-A9AC-E5778D87D993}">
+        <File Source="$(var.MiniBrowser.TargetPath)" Name="MiniBrowser.exe"
+              Id="CIMSEXE" KeyPath="yes"/>
+      </Component>
+      <Component Id="RegistryEntries" Guid="{62F54B93-86A8-46D9-BD30-B66ACB441067}">
+        <RegistryKey Root="HKCU" Key="Software\[Manufacturer]\[ProductName]">
+          <RegistryValue Type="string" Name="Key" Value="E57082BDC5ADB04B21E7C7AE82FEB6" KeyPath="no"/>
+          <RegistryValue Type="string" Name="Cartoon" Value="KissCartoon" KeyPath="no"/>
+          <RegistryValue Type="string" Name="Anime" Value="KissAnime" KeyPath="no"/>
+          <RegistryValue Type="string" Name="Custom" Value="https://www.google.com.au/search?q=" KeyPath="no"/>
+        </RegistryKey>
+        <RegistryValue Root="HKCU"  Key='Software\Microsoft\Internet Explorer\Main\FeatureControl\FEATURE_GPU_RENDERING'
+            Name="MiniBrowser.exe" Type="integer" Value="1" KeyPath="no"/>
+        <RegistryValue Root="HKCU"  Key='Software\Microsoft\Internet Explorer\Main\FeatureControl\FEATURE_BROWSER_EMULATION'
+            Name="MiniBrowser.exe" Type="integer" Value="99999" KeyPath="no"/>
+      </Component>
+    </DirectoryRef>
+    <!-- Step 1.1: Add the shortcut to your installer package Program Menu or Start Menu-->
+    <DirectoryRef Id="ApplicationProgramsFolder">
+      <Component Id="ApplicationShortcut" Guid="{806CE969-239C-4C92-8CDE-A40E9C97F1E2}">
+        <!--Add Shortcut of the Application in start Menu-->
+        <Shortcut Id="ApplicationStartMenuShortcut" Name="MiniBrowser" Description="Shortcut to Minibrowser"
+            Target="[INSTALLFOLDER]MiniBrowser.exe" WorkingDirectory="INSTALLFOLDER">
+          <!--Add Icon to the ShortCut-->
+          <Icon Id="MYPMenuIcon"  SourceFile=".\ploop.ico" />
+        </Shortcut>
+        <!--Remove the Folder At time of Uninstall-->
+        <RemoveFolder Id="ApplicationProgramsFolder" On="uninstall"/>
+        <RegistryValue Root="HKCU"  Key='Software\[Manufacturer]\[ProductName]'
+                       Name="installed" Type="integer" Value="1" KeyPath="yes"/>
+      </Component>
+    </DirectoryRef>
+    <DirectoryRef Id="DesktopFolder">
+      <Component Id="ApplicationDeskShortcutComp" Guid="{29FE114E-3676-4A03-83B6-53AA6FB78F04}">
+        <Shortcut Id="ApplicationDeskShortcut" Name="MiniBrowser"
+                  Description="My Application Description" Target="[INSTALLFOLDER]MiniBrowser.exe"
+                  WorkingDirectory="INSTALLFOLDER">
+          <Icon Id="MYDeskIcon"  SourceFile=".\ploop.ico" />
+        </Shortcut>
+        <RemoveFolder Id="DesktopFolder" On="uninstall"/>
+        <RegistryValue Root="HKCU"  Key='Software\[Manufacturer]\[ProductName]'
+                       Name="installed" Type="integer" Value="1" KeyPath="yes"/>
+
+      </Component>
+    </DirectoryRef>
+
+    <!--Step 3.1: add Shortcut to StartUp Folder to run application when you login-->
+    <DirectoryRef Id="StartupFolder">
+      <Component Id="ApplicationStartUpShortcutComp" Guid="{813753A9-5E2C-4B51-9CF0-507A3EA24964}">
+        <Shortcut Id="ApplicationStartUpDeskShortcut" Name="Desktop" Description="HALLA"
+            Target="[INSTALLFOLDER]MiniBrowser.exe" WorkingDirectory="INSTALLFOLDER">
+          <Icon Id="MyIconStartUp"  SourceFile=".\ploop.ico" />
+        </Shortcut>
+        <RemoveFolder Id="StartupFolder" On="uninstall"/>
+        <RegistryValue Root="HKCU"  Key='Software\[Manufacturer]\[ProductName]'
+                       Name="installed" Type="integer" Value="1" KeyPath="yes"/>
+      </Component>
+    </DirectoryRef>
+    <Feature Id="ProductFeature" Title="MiniBrowser" Level="1">
+      <!--<ComponentRef Id="SqlComponent"/>-->
+      <ComponentRef Id="MiniBrowser.exe" />
+      <ComponentRef Id="RegistryEntries" />
+      <ComponentRef Id="ApplicationShortcut" />
+      <!--step 2.2Add DeskTop Shortcut-->
+      <ComponentRef Id="ApplicationDeskShortcutComp" />
+      <!--step 3.2Add DeskTop Shortcut-->
+      <ComponentRef Id="ApplicationStartUpShortcutComp"/>
+      <ComponentGroupRef Id="ProductComponents" />
+    </Feature>
+    <Property Id="WIXUI_INSTALLDIR" Value="INSTALLFOLDER"/>
+  <UIRef Id="WixUI_InstallDir" />
+  <WixVariable Id="WixUILicenseRtf" Value="Lisense.rtf" />
+  </Product>
+
+
+  <Fragment>
+    <ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">
+
+    </ComponentGroup>
+
+  </Fragment>
+</Wix>

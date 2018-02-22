@@ -1,0 +1,8 @@
+obj\Release\Product.wixobj
+C:\Users\Ben\Documents\Visual Studio 2013\Projects\MiniBrowser\InstallMiniBrowser\bin\Release\InstallMiniBrowser.msi
+C:\Users\Ben\Documents\Visual Studio 2013\Projects\MiniBrowser\InstallMiniBrowser\bin\Release\InstallMiniBrowser.wixpdb
+obj\Release\InstallMiniBrowser.wixproj.BindContentsFileListnull.txt
+obj\Release\InstallMiniBrowser.wixproj.BindOutputsFileListnull.txt
+obj\Release\InstallMiniBrowser.wixproj.BindBuiltOutputsFileListnull.txt
+D:\Users\Ben\Documents\Visual Studio 2013\Projects\MiniBrowser\InstallMiniBrowser\bin\Release\InstallMiniBrowser.msi
+D:\Users\Ben\Documents\Visual Studio 2013\Projects\MiniBrowser\InstallMiniBrowser\bin\Release\InstallMiniBrowser.wixpdb

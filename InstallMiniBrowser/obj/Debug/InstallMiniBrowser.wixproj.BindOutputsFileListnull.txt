@@ -1,0 +1,2 @@
+D:\Users\Ben\Documents\Visual Studio 2013\Projects\MiniBrowser\InstallMiniBrowser\bin\Debug\InstallMiniBrowser.msi
+D:\Users\Ben\Documents\Visual Studio 2013\Projects\MiniBrowser\InstallMiniBrowser\bin\Debug\InstallMiniBrowser.wixpdb
